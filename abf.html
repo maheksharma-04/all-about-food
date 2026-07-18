@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All About Food</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Special+Elite&family=Permanent+Marker&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:         #4A1315;
+    --paper:      #FFFFFF;
+    --paper-warm: #FFFDF8;
+    --ink:        #221A12;
+    --tomato:     #C8382B;
+    --mustard:    #E3A72E;
+    --teal:       #2F6E6B;
+    --kraft:      #8B5A2B;
+    --cream:      #F4E9D8;
+    --cherry:     #8B1E1E;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Special Elite', monospace;
+    overflow-x:hidden;
+  }
+
+  /* subtle grain over the vintage dark red background */
+  body{
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(244,233,216,0.07) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  /* ---------- decorative confetti scattered across the whole page ---------- */
+  .deco{
+    position:absolute;
+    pointer-events:none;
+    z-index:1;
+    opacity:0.9;
+  }
+  .deco.star{ color:var(--mustard); font-size:28px; }
+  .deco.dot{ width:10px; height:10px; border-radius:50%; background:var(--mustard); }
+  .deco.ring{ width:26px; height:26px; border:3px solid var(--cream); border-radius:50%; opacity:0.6; }
+  .deco.zig{ font-size:22px; color:var(--cream); }
+
+  /* ---------- header ---------- */
+  header{
+    position:relative;
+    text-align:center;
+    padding:70px 20px 40px;
+    z-index:5;
+  }
+
+  .sunburst{
+    position:relative;
+    width:min(360px, 70vw);
+    aspect-ratio:1/1;
+    margin:0 auto 18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .sunburst::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      repeating-conic-gradient(var(--tomato) 0deg 9deg, var(--mustard) 9deg 18deg);
+    border-radius:50%;
+    animation: spin 60s linear infinite;
+  }
+  .sunburst::after{
+    content:"";
+    position:absolute;
+    inset:14%;
+    background:var(--cream);
+    border-radius:50%;
+    border:4px solid var(--ink);
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .sunburst-text{
+    position:relative;
+    z-index:2;
+    font-family:'Alfa Slab One', serif;
+    font-size:clamp(1.6rem, 4vw, 2.4rem);
+    line-height:1.05;
+    color:var(--ink);
+    letter-spacing:1px;
+    text-transform:uppercase;
+    text-shadow: 2px 2px 0 var(--paper);
+  }
+
+  .subtitle{
+    font-family:'Caveat', cursive;
+    font-size:clamp(1.3rem, 2.6vw, 1.8rem);
+    color:var(--mustard);
+    transform:rotate(-2deg);
+    display:inline-block;
+    margin-top:6px;
+  }
+
+  .tape{
+    position:absolute;
+    width:90px;
+    height:30px;
+    background:rgba(227,167,46,0.55);
+    border:1px dashed rgba(34,26,18,0.4);
+    top:-14px;
+  }
+  .tape.left{ left:calc(50% - 200px); transform:rotate(-8deg); }
+  .tape.right{ right:calc(50% - 200px); transform:rotate(7deg); }
+
+  .instructions{
+    max-width:560px;
+    margin:18px auto 0;
+    font-size:0.85rem;
+    color:var(--kraft);
+    line-height:1.5;
+    background:var(--cream);
+    border:2px dashed var(--kraft);
+    padding:12px 16px;
+    border-radius:4px;
+  }
+  .instructions b{ color:var(--tomato); }
+
+  /* ---------- scatter board ---------- */
+  #board{
+    position:relative;
+    width:100%;
+    max-width:1300px;
+    margin:0 auto;
+    min-height:1500px;
+    z-index:3;
+    padding-bottom:60px;
+  }
+
+  .item{
+    position:absolute;
+    text-decoration:none;
+    color:inherit;
+    display:block;
+    z-index:4;
+    transition: transform .28s cubic-bezier(.34,1.56,.64,1), z-index 0s;
+    will-change: transform;
+  }
+  .item:hover, .item:focus-visible{
+    transform: scale(1.22) rotate(0deg) !important;
+    z-index:50 !important;
+  }
+
+  .card{
+    position:relative;
+    background:var(--paper-warm);
+    border:6px solid var(--paper);
+    outline:2px solid var(--ink);
+    box-shadow: 4px 6px 0 rgba(34,26,18,0.18), 0 10px 22px rgba(34,26,18,0.15);
+    padding:10px 10px 34px;
+    width:190px;
+    transition: box-shadow .28s ease;
+  }
+  .item:hover .card{
+    box-shadow: 6px 10px 0 rgba(34,26,18,0.22), 0 22px 34px rgba(34,26,18,0.32);
+  }
+
+  .card img{
+    width:100%;
+    aspect-ratio:1/1;
+    object-fit:cover;
+    display:block;
+    background:#eee;
+    filter: sepia(0.12) saturate(1.05);
+  }
+
+  .pin{
+    position:absolute;
+    top:-12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #fff, var(--tomato) 45%, var(--cherry) 100%);
+    box-shadow:0 3px 4px rgba(0,0,0,0.35);
+    z-index:6;
+  }
+
+  .washi{
+    position:absolute;
+    width:56px;
+    height:22px;
+    top:-10px;
+    opacity:0.85;
+  }
+  .washi.a{ left:-14px; background:repeating-linear-gradient(45deg, var(--teal), var(--teal) 6px, #ffffff55 6px, #ffffff55 12px); transform:rotate(-18deg); }
+  .washi.b{ right:-14px; background:repeating-linear-gradient(45deg, var(--mustard), var(--mustard) 6px, #ffffff55 6px, #ffffff55 12px); transform:rotate(18deg); }
+
+  .cap{
+    position:absolute;
+    bottom:8px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-family:'Permanent Marker', cursive;
+    font-size:1.05rem;
+    color:var(--ink);
+  }
+
+  .ribbon{
+    position:absolute;
+    left:50%;
+    bottom:-14px;
+    transform:translate(-50%, 8px);
+    background:var(--tomato);
+    color:#fff;
+    font-family:'Special Elite', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.5px;
+    padding:5px 12px;
+    white-space:nowrap;
+    opacity:0;
+    transition: opacity .25s ease, transform .25s ease;
+    box-shadow:0 4px 8px rgba(0,0,0,0.25);
+  }
+  .ribbon::before, .ribbon::after{
+    content:"";
+    position:absolute;
+    bottom:-6px;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+  }
+  .ribbon::before{ left:0; border-top:6px solid #7a1c15; }
+  .ribbon::after{ right:0; border-top:6px solid #7a1c15; }
+
+  .item:hover .ribbon{
+    opacity:1;
+    transform:translate(-50%, 22px);
+  }
+
+  /* size variety */
+  .item.big .card{ width:230px; }
+  .item.small .card{ width:150px; }
+
+  /* ---------- footer ---------- */
+  footer{
+    position:relative;
+    z-index:5;
+    text-align:center;
+    padding:30px 20px 60px;
+    font-family:'Caveat', cursive;
+    font-size:1.2rem;
+    color:var(--cream);
+  }
+  footer .stamp{
+    display:inline-block;
+    border:3px double var(--teal);
+    color:var(--teal);
+    padding:6px 14px;
+    border-radius:6px;
+    transform:rotate(-3deg);
+    font-family:'Alfa Slab One', serif;
+    font-size:0.8rem;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+
+  /* ---------- responsive: collapse to a scrapbook grid on small screens ---------- */
+  @media (max-width: 760px){
+    #board{
+      min-height:0;
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:26px 14px;
+      padding:20px 16px 60px;
+    }
+    .item{
+      position:static !important;
+      transform:none !important;
+    }
+    .item.big .card, .item.small .card, .card{ width:150px; }
+    .item:hover, .item:focus-visible{
+      transform:scale(1.1) !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .sunburst::before{ animation:none; }
+    .item, .card, .ribbon{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tape left"></div>
+  <div class="tape right"></div>
+  <div class="sunburst">
+    <div class="sunburst-text">All<br>About<br>Food</div>
+  </div>
+  <div class="subtitle">a sticky, saucy scrapbook of favorites</div>
+  <div class="instructions">
+    <b>All you need to know about the OGs</b>
+  </div>
+</header>
+
+<main id="board" aria-label="Scattered food photo links"></main>
+
+<footer>
+  <p>click a photo to visit its page</p>
+  <span class="stamp">est. whenever you're hungry</span>
+</footer>
+
+<script>
+  /* =========================================================
+     EDIT ME: your food items live here.
+     - img:  put your own photo URL (or local file) here
+     - href: put the link you want this photo to open
+     ========================================================= */
+     const FOOD_ITEMS = [
+    { name:"Burger",    emoji:"🍔", color:"#C8382B", img:"burger.jpg", href:"burger.html" },
+    { name:"Donuts",    emoji:"🍔", color:"#C8382B", img:"donuts.jpg", href:"#" },
+    { name:"Ice cream Sundae",    emoji:"🥤", color:"#C8382B", img:"icecream.jpg", href:"#" },
+    { name:"Coke",      emoji:"🥤", color:"#8B1E1E", img:"coke.jpg", href:"coke.html" },
+    { name:"Heinz",      emoji:"🥤", color:"#8B1E1E", img:"Heinz.jpg", href:"#" },
+    { name:"pancake",      emoji:"🥤", color:"#8B1E1E", img:"pancake.jpg", href:"#" },
+    { name:"Pizza",     emoji:"🍕", color:"#E3A72E", img:"pizza.jpg", href:"#" },
+    { name:"Fries",     emoji:"🍟", color:"#E8B84B", img:"fries.jpg", href:"#" },
+    { name:"Wings",     emoji:"🍗", color:"#A6592D", img:"wings.jpg", href:"#" },
+    { name:"Snickers",  emoji:"🍫", color:"#5C3A21", img:"snickers.jpg", href:"#" },
+    { name:"Sandwich",  emoji:"🥪", color:"#D9A441", img:"sandwich.jpg", href:"#" },
+    { name:"Tacos",     emoji:"🌮", color:"#D97B3F", img:"tacos.jpg", href:"#" },
+    { name:"M&M's",     emoji:"🍬", color:"#2F6E6B", img:"mnm.jpg", href:"#" },
+    { name:"Cheetos",   emoji:"🧀", color:"#E08B2E", img:null, href:"#" },
+    { name:"Kit Kat",   emoji:"🍫", color:"#7A2E2E", img:"kitkat.jpg", href:"#" },
+    { name:"Kit Kat",   emoji:"🍫", color:"#7A2E2E", img:"kitkat.jpg", href:"#" }
+  ];
+
+  // builds a soft vintage placeholder photo (used only if no img url is given)
+  function placeholder(item){
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+        <defs>
+          <pattern id="dots" width="14" height="14" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.6" fill="rgba(255,255,255,0.35)"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="400" fill="${item.color}"/>
+        <rect width="400" height="400" fill="url(#dots)"/>
+        <text x="200" y="190" font-size="120" text-anchor="middle" dominant-baseline="middle">${item.emoji}</text>
+        <text x="200" y="330" font-family="Georgia, serif" font-size="26" fill="white" text-anchor="middle" letter-spacing="2">${item.name.toUpperCase()}</text>
+        <text x="200" y="360" font-family="Georgia, serif" font-size="12" fill="rgba(255,255,255,0.75)" text-anchor="middle">YOUR PHOTO HERE</text>
+      </svg>`;
+    return "data:image/svg+xml;base64," + btoa(svg);
+  }
+
+  const board = document.getElementById('board');
+  const W = window.innerWidth;
+
+  // loose grid zones so items scatter naturally without piling on top of each other
+  const cols = 4, rows = 3;
+  const zones = [];
+  for(let r=0;r<rows;r++){
+    for(let c=0;c<cols;c++){
+      zones.push({ r, c });
+    }
+  }
+  // shuffle zones
+  for(let i=zones.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [zones[i], zones[j]] = [zones[j], zones[i]];
+  }
+
+  const boardHeight = 1500;
+  const zoneW = 100/cols;
+  const zoneH = boardHeight/rows;
+
+  FOOD_ITEMS.forEach((item, idx) => {
+    const a = document.createElement('a');
+    a.className = 'item';
+    a.href = item.href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.setAttribute('aria-label', item.name);
+
+    const sizeRoll = Math.random();
+    if(sizeRoll < 0.25) a.classList.add('big');
+    else if(sizeRoll > 0.78) a.classList.add('small');
+
+    const zone = zones[idx % zones.length];
+    const jitterX = (Math.random()*0.5 - 0.25) * zoneW;
+    const jitterY = (Math.random()*0.5 - 0.25) * zoneH;
+    const left = Math.min(88, Math.max(2, zone.c*zoneW + zoneW/2 - 9 + jitterX));
+    const top  = zone.r*zoneH + zoneH/2 - 90 + jitterY;
+    const rotate = (Math.random()*22 - 11).toFixed(1);
+
+    if(W > 760){
+      a.style.left = left + '%';
+      a.style.top = top + 'px';
+      a.style.transform = `rotate(${rotate}deg)`;
+    }
+
+    const src = item.img ? item.img : placeholder(item);
+
+    a.innerHTML = `
+      <div class="card">
+        <div class="pin"></div>
+        <div class="washi a"></div>
+        <div class="washi b"></div>
+        <img src="${src}" alt="${item.name}" loading="lazy">
+        <div class="cap">${item.name}</div>
+        <div class="ribbon">${item.name} — visit page →</div>
+      </div>
+    `;
+    board.appendChild(a);
+  });
+
+  // scattered background confetti
+  const deco = document.querySelector('body');
+  const decoTypes = ['star','dot','ring','zig'];
+  const decoGlyphs = { star:'★', zig:'~' };
+  for(let i=0;i<26;i++){
+    const el = document.createElement('div');
+    const type = decoTypes[Math.floor(Math.random()*decoTypes.length)];
+    el.className = `deco ${type}`;
+    el.style.top = (Math.random()*(boardHeight+300) + 200) + 'px';
+    el.style.left = (Math.random()*94 + 2) + '%';
+    el.style.transform = `rotate(${Math.random()*360}deg)`;
+    if(decoGlyphs[type]) el.textContent = decoGlyphs[type];
+    document.body.appendChild(el);
+  }
+
+  // make sure the board is tall enough for the scattered layout
+  if(W > 760){ board.style.minHeight = boardHeight + 'px'; }
+</script>
+
+</body>
+</html>
