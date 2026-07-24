@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Food Story // Taste Magic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:ital@0,400;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Lora', serif; background-color: #000; color: #fff; overflow-x: hidden; line-height: 1.8; }
+        .video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; overflow: hidden; }
+        .video-background video { width: 100%; height: 100%; object-fit: cover; }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: -1; }
+        .container { max-width: 800px; margin: 0 auto; padding: 100px 20px; }
+        header { text-align: center; margin-bottom: 60px; }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; line-height: 1.2; margin-bottom: 15px; color: #fffefe; }
+        header p { font-size: 1.1rem; font-style: italic; color: #ccc; }
+        .story-card { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); padding: 60px 50px; border-radius: 16px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); }
+        .story-heading { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #ffffff; margin-top: 45px; margin-bottom: 20px; }
+        .story-heading:first-of-type { margin-top: 0; }
+        .story-paragraph { font-size: 1.1rem; color: #f5f5f5; margin-bottom: 25px; text-align: justify; }
+        .story-paragraph:last-of-type { margin-bottom: 0; }
+        footer { text-align: center; margin-top: 60px; font-size: 0.85rem; color: #888; letter-spacing: 1px; }
+        @media (max-width: 600px) { header h1 { font-size: 2.3rem; } .story-card { padding: 35px 25px; } .story-heading { font-size: 1.4rem; } }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay loop muted playsinline>
+            <!-- CHANGE THIS FOR EACH ITEM (e.g., burger.mp4, donuts.mp4) -->
+            <source src="donuts.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="video-overlay"></div>
+    <div class="container">
+        <header>
+            <!-- INSERT HEADER H1 AND P HERE -->
+            <h1>The Aesthetic Donut</h1>
+            <p>A geometric masterpiece of glaze and pure joy.</p>
+        </header>
+        <main>
+            <article class="story-card">
+                <!-- INSERT THE 4 HEADINGS AND PARAGRAPHS FROM THE CATALOG BELOW HERE --><h2 class="story-heading">The Perfect Shape (1847)</h2>
+
+<p class="story-paragraph">The modern donut achieved its iconic design in 1847 through a brilliant stroke of maritime problem-solving. A young sailor named Hanson Gregory punched a hole straight through the center of raw dough to ensure an even cook across the entire surface. This striking geometric choice created a instantly recognizable silhouette, establishing a whimsical, comforting look that makes it a visual icon in bakery windows worldwide today.</p>
+
+<h2 class="story-heading">A Glaze of Community</h2>
+
+<p class="story-paragraph">The message of morning comfort truly flourished with the rise of the local pastry shop. The warm aroma of proofing dough and sweet vanilla glaze acted as an open invitation to early risers and late-night workers alike. Sharing a fresh box of brightly colored donuts transformed routine office mornings and casual family visits into shared celebrations, bringing people together over small moments of sweetness.</p>
+
+<h2 class="story-heading">A Vibrant Expression</h2>   
+
+<p class="story-paragraph">As the mid-century rolled in, the donut expanded its identity beyond simple sugar into a canvas of vivid human expression. Bright pink frostings, complex textures, and artistic sprinkles allowed bakeries to visually communicate joy without words. It became a cultural staple of classic road trips and neighborhood mornings, offering an accessible, reliable pocket of happiness regardless of where you were traveling.</p>
+
+<h2 class="story-heading">The Artisanal Age</h2>
+
+<p class="story-paragraph">The deep connection between communities and the donut reached a beautiful peak with the modern artisanal movement. When automated baking threatened to neutralize its charm, people protected traditional, hand-rolled brioche methods. Responding to this creative spirit, bakers introduced bold flavor pairings and elegant decorations, turning a simple breakfast pastry into a striking statement of personal craft and universal comfort.</p>
+            </article>
+        </main>
+        <footer>
+            <p>CRAFTED WITH PASSION. COMFORT FOOD LEGACIES.</p>
+        </footer>
+    </div>
+</body>
+</html>
